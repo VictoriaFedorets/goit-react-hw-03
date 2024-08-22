@@ -1,17 +1,31 @@
 import Contact from "../Contact/Contact";
-import { IoPerson } from "react-icons/io5";
-import { FaPhoneAlt } from "react-icons/fa";
 
-const icons = [<IoPerson key={1} />, <FaPhoneAlt key={2} />];
+// import { IoPerson } from "react-icons/io5";
+// import { FaPhoneAlt } from "react-icons/fa";
 
-export default function ContactList({ starterContacts }) {
+import css from "./ContactList.module.css";
+
+// const iconPerson = <IoPerson key={1} />;
+// const iconPhone = <FaPhoneAlt key={2} />;
+
+export default function ContactList({ contacts, onDelete }) {
+  if (contacts.length === 0) {
+    return <p>No contacts found.</p>;
+  }
+
   return (
     <ul>
-      <li>
-        {contacts.map(({ id, name, number }, idx) => (
-          <Contact key={id} name={name} number={number} icon={icons[idx]} />
-        ))}
-      </li>
+      {contacts.map(({ id, name, number }) => (
+        <Contact
+          key={id}
+          id={id}
+          name={name}
+          number={number}
+          // iconPerson={iconPerson}
+          // iconPhone={iconPhone}
+          onDelete={onDelete}
+        />
+      ))}
     </ul>
   );
 }
