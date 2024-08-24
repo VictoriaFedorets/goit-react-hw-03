@@ -1,14 +1,21 @@
+import { useId } from "react";
 import css from "./SeachBox.module.css";
 
-export default function SearchBox({ value, onUpdate }) {
+export default function SearchBox({ value, onFilter }) {
   const handleChange = event => {
-    onUpdate(event.target.value);
+    onFilter(event.target.value);
   };
-
+  const id = useId();
   return (
     <div className={css.searchBox}>
-      <span>Find contacts by name</span>
-      <input type="text" value={value} onChange={handleChange} />
+      <label htmlFor={`${id}-find`}>Find contacts by name</label>
+      <input
+        className={css.seachInput}
+        id={`${id}-find`}
+        type="text"
+        value={value}
+        onChange={handleChange}
+      />
     </div>
   );
 }

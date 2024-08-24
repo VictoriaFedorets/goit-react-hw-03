@@ -9,12 +9,8 @@ import css from "./ContactList.module.css";
 // const iconPhone = <FaPhoneAlt key={2} />;
 
 export default function ContactList({ contacts, onDelete }) {
-  if (contacts.length === 0) {
-    return <p>No contacts found.</p>;
-  }
-
   return (
-    <ul>
+    <ul className={css.contactList}>
       {contacts.map(({ id, name, number }) => (
         <Contact
           key={id}

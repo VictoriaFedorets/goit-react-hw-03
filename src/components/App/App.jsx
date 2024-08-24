@@ -13,34 +13,31 @@ export default function App() {
   ];
 
   const [contacts, setContacts] = useState(() => {
-    try {
-      const savedContacts = window.localStorage.getItem("my-contacts");
-      if (savedContacts) {
-        return JSON.parse(savedContacts);
-      }
-    } catch (error) {
-      console.error("Failed to parse contacts from localStorage:", error);
+    const savedContacts = window.localStorage.getItem("my-contacts");
+    if (savedContacts !== null) {
+      return JSON.parse(savedContacts);
     }
-    return starterContacts;
+
+    return [];
   });
 
-  const addNewUser = newUser => {
-    setContacts(prevContacts => [...prevContacts, newUser]);
+  const addNewUser = newUsers => {
+    setContacts(prevContacts => [...prevContacts, newUsers]);
   };
 
-  const deleteUser = id => {
-    setContacts(prevContacts =>
-      prevContacts.filter(contact => contact.id !== id)
-    );
+  const deleteUser = newUser => {
+    setContacts(contacts.filter(contact => contact.id !== newUser));
   };
 
-  const [text, setText] = useState("");
-  const handleTextChange = newText => {
-    setText(newText);
-  };
+  // const [searchText, setSearchText] = useState("");
+  // const handleTextChange = event => {
+  //   setSearchText(event.target.value);
+  // };
+
+  const [filter, setFilter] = useState("");
 
   const findNewUser = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(text.toLowerCase())
+    contact.name.toLowerCase().includes(filter.toLowerCase())
   );
 
   useEffect(() => {
@@ -51,9 +48,9 @@ export default function App() {
     <div>
       <h1>Phonebook</h1>
       <ContactForm onAdd={addNewUser} />
-      <SearchBox value={text} onUpdate={handleTextChange} />
-      <p>{text}</p>
-      <ContactList onDelete={deleteUser} contacts={findNewUser} />
+      <SearchBox onFilter={setFilter} />
+
+      <ContactList contacts={findNewUser} onDelete={deleteUser} />
     </div>
   );
 }

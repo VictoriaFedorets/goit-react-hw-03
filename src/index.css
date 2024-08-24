@@ -2,7 +2,7 @@ body {
   font-family: sans-serif;
   line-height: 1.5;
   display: flex;
-  justify-content: center;
+  justify-content: left;
 
   min-width: 320px;
   min-height: 100vh;

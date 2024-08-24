@@ -11,23 +11,25 @@ export default function Contact({ name, number, id, onDelete }) {
   return (
     <li className={css.contactList}>
       <div>
-        <div className={css.iconAndInfo}>
+        <p className={css.iconAndInfo}>
           <IconContext.Provider value={{ color: "black", size: "30" }}>
             <IoPerson />
           </IconContext.Provider>
-          <p>{name}</p>
-        </div>
+          {name}
+        </p>
 
-        <div className={css.iconAndInfo}>
+        <p className={css.iconAndInfo}>
           <IconContext.Provider value={{ color: "black", size: "30" }}>
             <FaPhoneAlt />
           </IconContext.Provider>
-          <p>{number}</p>
-        </div>
+          {number}
+        </p>
       </div>
 
       <div>
-        <button onClick={() => onDelete(id)}>Delete</button>
+        <button type="button" onClick={() => onDelete(id)}>
+          Delete
+        </button>
       </div>
     </li>
   );

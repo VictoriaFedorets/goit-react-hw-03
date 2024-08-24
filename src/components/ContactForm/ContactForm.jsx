@@ -1,33 +1,76 @@
 import { useId } from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
 import css from "./ContactForm.module.css";
+
+const UserSchema = Yup.object().shape({
+  name: Yup.string()
+    .min(3, "Too short!")
+    .max(50, "Too Long!")
+    .required("Required"),
+  number: Yup.string()
+    .matches(/^\d{3}-\d{2}-\d{2}$/, "Format ***-**-**")
+    .required("Required"),
+});
 
 export default function ContactForm({ onAdd }) {
   const id = useId();
 
-  const handleSubmit = event => {
-    event.preventDefault();
-
-    onAdd({
-      name: event.target.elements.name.value,
-      number: event.target.elements.number.value,
-    });
-
-    event.target.reset();
+  const handleSubmit = (values, actions) => {
+    console.log("SUBMIT");
+    onAdd({ ...values, id: Date.now() });
+    actions.resetForm();
   };
+  //   const handleSubmit = event => {
+  //     event.preventDefault();
+
+  //     onAdd({
+  //       name: event.target.elements.name.value,
+  //       number: event.target.elements.number.value,
+  //     });
+
+  //     event.target.reset();
+  //   };
 
   return (
-    <form className={css.form} onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor={`${id}-name`}>Name</label>
-        <input type="text" name="name" id={`${id}-name`} />
-      </div>
+    <Formik
+      //   обэкт початкового стану(початкових значень)
+      initialValues={{
+        name: "",
+        number: "",
+      }}
+      validationSchema={UserSchema}
+      onSubmit={handleSubmit}
+    >
+      <Form className={css.form}>
+        <div className={css.forms}>
+          <label className={css.label} htmlFor={`${id}-name`}>
+            Name
+          </label>
+          <Field
+            className={css.field}
+            type="text"
+            name="name"
+            id={`${id}-name`}
+          />
+          <ErrorMessage name="name" component="span" className={css.error} />
+        </div>
 
-      <div>
-        <label htmlFor={`${id}-number`}>Number</label>
-        <input type="text" name="number" id={`${id}-number`} />
-      </div>
-      <button type="submit">Add contact</button>
-    </form>
+        <div className={css.forms}>
+          <label className={css.label} htmlFor={`${id}-number`}>
+            Number
+          </label>
+          <Field
+            className={css.field}
+            type="text"
+            name="number"
+            id={`${id}-number`}
+          />
+          <ErrorMessage name="number" component="span" className={css.error} />
+        </div>
+        <button type="submit">Add contact</button>
+      </Form>
+    </Formik>
   );
 }
