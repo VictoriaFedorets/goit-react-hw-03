@@ -18,26 +18,24 @@ export default function App() {
       return JSON.parse(savedContacts);
     }
 
-    return [];
+    return starterContacts;
   });
 
   const addNewUser = newUsers => {
     setContacts(prevContacts => [...prevContacts, newUsers]);
   };
 
-  const deleteUser = newUser => {
-    setContacts(contacts.filter(contact => contact.id !== newUser));
+  const deleteUser = id => {
+    setContacts(contacts.filter(contact => contact.id !== id));
   };
 
-  // const [searchText, setSearchText] = useState("");
-  // const handleTextChange = event => {
-  //   setSearchText(event.target.value);
-  // };
-
-  const [filter, setFilter] = useState("");
+  const [searchText, setSearchText] = useState("");
+  const handleTextChange = event => {
+    setSearchText(event.target.value);
+  };
 
   const findNewUser = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(filter.toLowerCase())
+    contact.name.toLowerCase().includes(searchText.toLowerCase())
   );
 
   useEffect(() => {
@@ -48,7 +46,7 @@ export default function App() {
     <div>
       <h1>Phonebook</h1>
       <ContactForm onAdd={addNewUser} />
-      <SearchBox onFilter={setFilter} />
+      <SearchBox onFilter={handleTextChange} searchText={searchText} />
 
       <ContactList contacts={findNewUser} onDelete={deleteUser} />
     </div>

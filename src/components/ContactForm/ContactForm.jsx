@@ -18,7 +18,6 @@ export default function ContactForm({ onAdd }) {
   const id = useId();
 
   const handleSubmit = (values, actions) => {
-    console.log("SUBMIT");
     onAdd({ ...values, id: Date.now() });
     actions.resetForm();
   };

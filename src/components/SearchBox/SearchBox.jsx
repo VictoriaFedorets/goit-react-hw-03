@@ -1,10 +1,7 @@
 import { useId } from "react";
 import css from "./SeachBox.module.css";
 
-export default function SearchBox({ value, onFilter }) {
-  const handleChange = event => {
-    onFilter(event.target.value);
-  };
+export default function SearchBox({ searchText, onFilter }) {
   const id = useId();
   return (
     <div className={css.searchBox}>
@@ -13,8 +10,8 @@ export default function SearchBox({ value, onFilter }) {
         className={css.seachInput}
         id={`${id}-find`}
         type="text"
-        value={value}
-        onChange={handleChange}
+        value={searchText}
+        onChange={onFilter}
       />
     </div>
   );
